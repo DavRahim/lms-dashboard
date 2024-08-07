@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { League_Spartan } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const league_spartan = League_Spartan({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +16,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={league_spartan.className}>
+        <main className={`flex flex-col min-h-[calc(100vh-3.5rem-1px)] bg-gradient-to-r from-green-50 to-green-300`}>
+          <div className='flex-1 flex flex-col h-full'>
+            {children}
+          </div>
+        </main>
+      </body>
     </html>
   );
 }
