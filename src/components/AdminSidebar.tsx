@@ -8,4 +8,4 @@ const AdminSidebar = (props: Props) => {
   </div>;
 };
 
-export default AdminSidebar;
+export default AdminSidebar; 
