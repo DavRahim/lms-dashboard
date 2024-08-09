@@ -6,18 +6,23 @@ import Image from "next/image";
 
 const STEPS = [
     {
-        name: 'Step 1: instructions',
-        description: 'How to Enroll',
+        name: 'Step 1: Course Information',
+        description: 'Enter Information',
         url: '/instructions',
     },
     {
-        name: 'Step 2: registration',
-        description: 'Enter your information',
+        name: 'Step 2: Course Options',
+        description: 'Enter Options',
         url: '/registration',
     },
     {
-        name: 'Step 3: payment',
-        description: 'Pay the course fee',
+        name: 'Step 3: Course Content',
+        description: 'Enter Content',
+        url: '/payment',
+    },
+    {
+        name: 'Step 4: Course Preview',
+        description: 'Your Course',
         url: '/payment',
     },
 ]
@@ -69,13 +74,13 @@ const Steps = () => {
 
                                 <span className='ml-4 h-full mt-0.5 flex min-w-0 flex-col justify-center'>
                                     <span
-                                        className={cn('text-sm font-semibold text-zinc-700', {
+                                        className={cn('text-[12px] font-semibold text-zinc-700', {
                                             'text-primary': isCompleted,
                                             'text-green-700': isCurrent,
                                         })}>
                                         {step.name}
                                     </span>
-                                    <span className='text-sm text-zinc-500'>
+                                    <span className='text-[10px] text-zinc-500'>
                                         {step.description}
                                     </span>
                                 </span>
