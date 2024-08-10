@@ -98,9 +98,11 @@ const CourseInformation: FC<Props> = ({ active, courseInfo, setActive, setCourse
             }
             reader.readAsDataURL(file)
         }
-    }
+    };
+
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-        console.log(data)
+        console.log(data);
+        setActive(active + 1)
     }
     return (
         <section className="mt-5">
