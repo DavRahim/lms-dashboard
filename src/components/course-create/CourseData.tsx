@@ -1,10 +1,16 @@
 import React, { FC } from "react";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Input } from "../ui/input";
-import { CirclePlus } from "lucide-react";
+import { ArrowLeft, ArrowRight, CirclePlus } from "lucide-react";
+import { Button } from "../ui/button";
+
+const FormSchema = z.object({
+    benefit: z.any(),
+    prerequisite: z.any()
+})
 
 type Props = {
     benefits: { title: string }[];
@@ -15,17 +21,12 @@ type Props = {
     setActive: (active: number) => void
 };
 
-const FormSchema = z.object({
-    benefit: z.string().min(3, {
-        message: "benefit must be at least 6 characters."
-    }),
-})
-
 const CourseData: FC<Props> = ({ active, benefits, prerequisites, setActive, setBenefits, setPrerequisites }) => {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
             benefit: "",
+            prerequisite: ""
         },
     });
 
@@ -34,7 +35,30 @@ const CourseData: FC<Props> = ({ active, benefits, prerequisites, setActive, set
         updateBenefits[index].title = value
         setBenefits(updateBenefits)
     }
+    const handleAddBenefit = () => {
+        setBenefits([...benefits, { title: "" }])
+    }
 
+    const handlePrerequisiteChange = (index: number, value: any) => {
+        const updatePrerequisite = [...prerequisites];
+        updatePrerequisite[index].title = value
+        setPrerequisites(updatePrerequisite)
+    }
+
+    const handleAddPrerequisite = () => {
+        setPrerequisites([...prerequisites, { title: "" }])
+    }
+    const prevButton = () => {
+        setActive(active - 1)
+    }
+    const handleOptions = () => {
+        if (benefits[benefits.length - 1]?.title !== "" && prerequisites[prerequisites.length - 1]?.title !== "") {
+            setActive(1)
+            console.log(benefits, prerequisites)
+        } else {
+          console.log("error");
+        }
+    }
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
         console.log(data)
     }
@@ -51,25 +75,69 @@ const CourseData: FC<Props> = ({ active, benefits, prerequisites, setActive, set
                                     This name will be used in all communications. So provide correct name. Please do not use any pseudonyms.
                                 </FormDescription>
                                 <FormControl>
-                                    {
-                                        benefits.map((benefit: any, index: number) => (
-                                            <Input
-                                                key={index}
-                                                placeholder="You will be able to build a full  stack LMS platform..."
-                                                {...field}
-                                                value={benefit.title}
-                                                onChange={(event) => {
-                                                    handleBenefitChange(index, event.target.value)
-                                                }}
-                                            />
-                                        ))
-                                    }
-                                    <CirclePlus className="w-5 h-5 fill-slate-900" />
+                                    <div>
+                                        {
+                                            benefits && benefits.map((benefit: any, index: number) => (
+                                                <Input
+                                                    key={index}
+                                                    placeholder="You will be able to build a full  stack LMS platform..."
+                                                    {...field}
+                                                    value={benefit.title}
+                                                    onChange={(event) => {
+                                                        handleBenefitChange(index, event.target.value)
+                                                    }}
+                                                    className="my-3"
+                                                />
+                                            ))
+                                        }
+                                        <CirclePlus onClick={handleAddBenefit} className="w-5 h-5 mt-3" />
+                                    </div>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
+                    <FormField
+                        name="prerequisite"
+                        render={({ field }) => (
+                            <FormItem className="space-y-0 mb-4">
+                                <FormLabel>  What are the Prerequisites for  starting this course?</FormLabel>
+                                <FormDescription>
+                                    This name will be used in all communications. So provide correct name. Please do not use any pseudonyms.
+                                </FormDescription>
+                                <FormControl>
+                                    <div>
+                                        {
+                                            prerequisites && prerequisites.map((prerequisite: any, index: number) => (
+                                                <Input
+                                                    key={index}
+                                                    placeholder="You will be able to build a full  stack LMS platform..."
+                                                    {...field}
+                                                    value={prerequisite.title}
+                                                    onChange={(event) => {
+                                                        handlePrerequisiteChange(index, event.target.value)
+                                                    }}
+                                                    className="my-3"
+                                                />
+                                            ))
+                                        }
+                                        <CirclePlus onClick={handleAddPrerequisite} className="w-5 h-5 mt-3" />
+                                    </div>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <div className="w-full flex items-center justify-between">
+                        <Button onClick={() => prevButton()}>
+                            Prev
+                            <ArrowLeft className="h-4 w-6 text-white fill-white" />
+                        </Button>
+                        <Button onClick={() => handleOptions()} type="submit">
+                            Next
+                            <ArrowRight className="h-4 w-6 text-white fill-white" />
+                        </Button>
+                    </div>
                 </form>
             </Form>
         </section>

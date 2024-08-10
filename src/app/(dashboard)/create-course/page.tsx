@@ -1,11 +1,13 @@
 "use client"
-import React, { useState} from "react";
+import React, { useState } from "react";
 import Steps from "@/components/Steps";
 import CourseInformation from "@/components/course-create/CourseInformation";
+import CourseData from "@/components/course-create/CourseData";
+import CourseContent from "@/components/course-create/CourseContent";
 
 type Props = {};
 const Page = (props: Props) => {
-    const [active, setActive] = useState(0);
+    const [active, setActive] = useState(2);
 
     // course info data
     const [courseInfo, setCourseInfo] = useState({
@@ -24,6 +26,67 @@ const Page = (props: Props) => {
     const [benefits, setBenefits] = useState([{ title: "" }])
     const [prerequisites, setPrerequisites] = useState([{ title: "" }]);
 
+
+    const [courseContentData, setCourseContentData] = useState([
+        {
+            videoUrl: "",
+            title: "",
+            description: "",
+            videoSection: "Untitled Section",
+            videoLength: "",
+            links: [
+                {
+                    title: "",
+                    url: ""
+                }
+            ],
+            suggestion: ""
+        }
+    ])
+
+    const [courseData, setCourseData] = useState({})
+
+    const handleSubmit = async () => {
+        // format benefits array
+        const formattedBenefits = benefits.map((benefit) => ({ title: benefit.title }))
+        // format prerequisite array
+        const formattedPrerequisites = prerequisites.map((prerequisite) => ({ title: prerequisite.title }))
+
+        // format course content array;
+        const formattedCourseContentData = courseContentData.map((courseContent) => ({
+            videoUrl: courseContent.videoUrl,
+            title: courseContent.title,
+            description: courseContent.description,
+            videoLength: courseContent.videoLength,
+            videoSection: courseContent.videoSection,
+            links: courseContent.links.map((link) => ({
+                title: link.title,
+                url: link.url
+            })),
+            suggestion: courseContent.suggestion
+        }))
+
+        // prepare our data object;
+        const data = {
+            name: courseInfo.name,
+            description: courseInfo.description,
+            price: courseInfo.price,
+            categories: courseInfo.categories,
+            estimatePrice: courseInfo.estimatePrice,
+            tags: courseInfo.tags,
+            thumbnail: courseInfo.thumbnail,
+            level: courseInfo.level,
+            demoUrl: courseInfo.demoUrl,
+            totalVideos: courseContentData.length,
+            benefits: formattedBenefits,
+            prerequisites: formattedPrerequisites,
+            courseData: formattedCourseContentData
+        }
+
+        setCourseData(data)
+
+    }
+
     return (
         <div className="col-span-10">
             <Steps />
@@ -39,9 +102,25 @@ const Page = (props: Props) => {
             }
             {
                 active === 1 && (
-                    <section className="mt-5">
-                        <h3>gello</h3>
-                    </section>
+                    <CourseData
+                        benefits={benefits} 
+                        prerequisites={prerequisites} 
+                        setBenefits={setBenefits} 
+                        setPrerequisites={setPrerequisites}
+                        active={active}
+                        setActive={setActive}
+                    />
+                )
+            }
+            {
+                active === 2 && (
+                    <CourseContent
+                        active={active}
+                        setActive={setActive}
+                        courseContentData={courseContentData}
+                        setCourseContentData={setCourseContentData}
+                        handleSubmit={handleSubmit}
+                    />
                 )
             }
         </div>
