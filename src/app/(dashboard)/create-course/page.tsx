@@ -4,10 +4,11 @@ import Steps from "@/components/Steps";
 import CourseInformation from "@/components/course-create/CourseInformation";
 import CourseData from "@/components/course-create/CourseData";
 import CourseContent from "@/components/course-create/CourseContent";
+import CoursePreview from "@/components/course-create/CoursePreview";
 
 type Props = {};
 const Page = (props: Props) => {
-    const [active, setActive] = useState(2);
+    const [active, setActive] = useState(3);
 
     // course info data
     const [courseInfo, setCourseInfo] = useState({
@@ -87,6 +88,14 @@ const Page = (props: Props) => {
 
     }
 
+    const handleCourseCreate = async (e: any) => {
+        const data = courseData
+        // if (!isLoading) {
+
+        //     await createCourse(data)
+        // }
+    }
+
     return (
         <div className="col-span-10">
             <Steps />
@@ -120,6 +129,17 @@ const Page = (props: Props) => {
                         courseContentData={courseContentData}
                         setCourseContentData={setCourseContentData}
                         handleSubmit={handleSubmit}
+                    />
+                )
+            }
+            {
+                active === 3 && (
+                    <CoursePreview
+                        active={active}
+                        setActive={setActive}
+                        courseData={courseData}
+                        handleCourseCreate={handleCourseCreate}
+                        isEdit={false}
                     />
                 )
             }
