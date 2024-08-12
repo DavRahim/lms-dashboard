@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { ArrowLeft, ArrowRight, CirclePlus } from "lucide-react";
 import { Button } from "../ui/button";
+import { useToast } from "../ui/use-toast";
 
 const FormSchema = z.object({
     benefit: z.any(),
@@ -29,6 +30,7 @@ const CourseData: FC<Props> = ({ active, benefits, prerequisites, setActive, set
             prerequisite: ""
         },
     });
+    const { toast } = useToast();
 
     const handleBenefitChange = (index: number, value: any) => {
         const updateBenefits = [...benefits];
@@ -53,10 +55,12 @@ const CourseData: FC<Props> = ({ active, benefits, prerequisites, setActive, set
     }
     const handleOptions = () => {
         if (benefits[benefits.length - 1]?.title !== "" && prerequisites[prerequisites.length - 1]?.title !== "") {
-            setActive(1)
-            console.log(benefits, prerequisites)
+            setActive(active + 1)
         } else {
-          console.log("error");
+            toast({
+                title: "please fill the fields for go to next",
+                description: "Friday, February 10, 2023 at 5:57 PM",
+            })
         }
     }
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {

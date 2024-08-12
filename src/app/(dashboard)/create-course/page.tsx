@@ -8,7 +8,7 @@ import CoursePreview from "@/components/course-create/CoursePreview";
 
 type Props = {};
 const Page = (props: Props) => {
-    const [active, setActive] = useState(3);
+    const [active, setActive] = useState(0);
 
     // course info data
     const [courseInfo, setCourseInfo] = useState({
@@ -89,7 +89,8 @@ const Page = (props: Props) => {
     }
 
     const handleCourseCreate = async (e: any) => {
-        const data = courseData
+        const data = courseData;
+        console.log(data);
         // if (!isLoading) {
 
         //     await createCourse(data)
@@ -112,9 +113,9 @@ const Page = (props: Props) => {
             {
                 active === 1 && (
                     <CourseData
-                        benefits={benefits} 
-                        prerequisites={prerequisites} 
-                        setBenefits={setBenefits} 
+                        benefits={benefits}
+                        prerequisites={prerequisites}
+                        setBenefits={setBenefits}
                         setPrerequisites={setPrerequisites}
                         active={active}
                         setActive={setActive}

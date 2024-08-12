@@ -101,7 +101,18 @@ const CourseInformation: FC<Props> = ({ active, courseInfo, setActive, setCourse
     };
 
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-        console.log(data);
+        setCourseInfo({
+            ...courseInfo,
+            name: data.name,
+            description: data.description,
+            price: data.price,
+            estimatePrice: data.estimatePrice,
+            tags: data.tags,
+            categories: data.categories,
+            level: data.level,
+            demoUrl: data.demoUrl,
+            thumbnail: data.thumbnail
+        })
         setActive(active + 1)
     }
     return (
@@ -117,7 +128,13 @@ const CourseInformation: FC<Props> = ({ active, courseInfo, setActive, setCourse
                                     This name will be used in all communications. So provide correct name. Please do not use any pseudonyms.
                                 </FormDescription>
                                 <FormControl>
-                                    <Input placeholder="MERN stack LMS platform with next 13" {...field} />
+                                    <Input placeholder="MERN stack LMS platform with next 13"
+                                        {...field}
+                                        value={courseInfo?.name}
+                                        onChange={(event) => {
+                                            setCourseInfo({...courseInfo, name: event.target.value })
+                                        }}
+                                    />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -133,7 +150,9 @@ const CourseInformation: FC<Props> = ({ active, courseInfo, setActive, setCourse
                                     Necessary documents can be sent to this address through courier service. So provide correct address.
                                 </FormDescription>
                                 <FormControl>
-                                    <Textarea className="resize-none" cols={30} rows={8} placeholder="Write something amazing" {...field} />
+                                    <Textarea className="resize-none" cols={30} rows={8} placeholder="Write something amazing" {...field} value={courseInfo.description} onChange={(event) => {
+                                        setCourseInfo({ ...courseInfo, description: event.target.value })
+                                    }} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -149,7 +168,9 @@ const CourseInformation: FC<Props> = ({ active, courseInfo, setActive, setCourse
                                         This name will be used in all communications. So provide correct name. Please do not use any pseudonyms.
                                     </FormDescription>
                                     <FormControl>
-                                        <Input type="number" placeholder="course price $99" {...field} />
+                                        <Input type="number" placeholder="course price $99" {...field} value={courseInfo.price} onChange={(event) => {
+                                            setCourseInfo({ ...courseInfo, price: event.target.value })
+                                        }} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -164,7 +185,9 @@ const CourseInformation: FC<Props> = ({ active, courseInfo, setActive, setCourse
                                         This name will be used in all communications. So provide correct name. Please do not use any pseudonyms.
                                     </FormDescription>
                                     <FormControl>
-                                        <Input type="number" placeholder="course price $99" {...field} />
+                                        <Input type="number" placeholder="course price $99" {...field} value={courseInfo.estimatePrice} onChange={(event) => {
+                                            setCourseInfo({ ...courseInfo, estimatePrice: event.target.value })
+                                        }} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -181,7 +204,9 @@ const CourseInformation: FC<Props> = ({ active, courseInfo, setActive, setCourse
                                         This name will be used in all communications. So provide correct name. Please do not use any pseudonyms.
                                     </FormDescription>
                                     <FormControl>
-                                        <Input placeholder="MERN, stack, LMS, platform, next 13" {...field} />
+                                        <Input placeholder="MERN, stack, LMS, platform, next 13" {...field} value={courseInfo.tags} onChange={(event) => {
+                                            setCourseInfo({ ...courseInfo, tags: event.target.value })
+                                        }} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -195,7 +220,9 @@ const CourseInformation: FC<Props> = ({ active, courseInfo, setActive, setCourse
                                     <FormDescription>
                                         This name will be used in all communications. So provide correct name. Please do not use any pseudonyms.
                                     </FormDescription>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value} value={courseInfo.categories} onOpenChange={(event) => {
+                                        setCourseInfo({ ...courseInfo, categories: event.valueOf })
+                                        }}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select Categories" />
@@ -223,7 +250,9 @@ const CourseInformation: FC<Props> = ({ active, courseInfo, setActive, setCourse
                                         This name will be used in all communications. So provide correct name. Please do not use any pseudonyms.
                                     </FormDescription>
                                     <FormControl>
-                                        <Input placeholder="Eromfao5435" {...field} />
+                                        <Input placeholder="Eromfao5435" {...field} value={courseInfo.demoUrl} onChange={(event) => {
+                                            setCourseInfo({ ...courseInfo, demoUrl: event.target.value })
+                                        }} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -237,7 +266,9 @@ const CourseInformation: FC<Props> = ({ active, courseInfo, setActive, setCourse
                                     <FormDescription>
                                         This name will be used in all communications. So provide correct name. Please do not use any pseudonyms.
                                     </FormDescription>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value} value={courseInfo.level} onOpenChange={(event) => {
+                                        setCourseInfo({ ...courseInfo, level: event.valueOf })
+                                    }}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select Level" />

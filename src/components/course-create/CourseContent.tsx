@@ -7,6 +7,7 @@ import { Input } from "../ui/input";
 import { ArrowBigDown, CirclePlus, Link, Pencil, Trash2 } from "lucide-react";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
+import { useToast } from "../ui/use-toast";
 
 type Props = {
     active: number;
@@ -46,6 +47,7 @@ const CourseContent: FC<Props> = ({ active, courseContentData, handleSubmit: han
             thumbnail: new File([""], "thumbnail"),
         },
     });
+    const { toast } = useToast();
 
     const [isCollapsed, setIsCollapsed] = useState(
         Array(courseContentData.length).fill(false)
@@ -68,7 +70,10 @@ const CourseContent: FC<Props> = ({ active, courseContentData, handleSubmit: han
     };
     const newContentHandler = (item: any) => {
         if (item.title === "" || item.description === "" || item.videoUrl === "" || item.links[0].title === "" || item.links[0].url === "") {
-            console.log("Please fill all the fields first")
+            toast({
+                title: "please fill the fields for go to next",
+                description: "Friday, February 10, 2023 at 5:57 PM",
+            })
         } else {
             let newVideoSection = "";
             if (courseContentData.length > 0) {
@@ -103,13 +108,14 @@ const CourseContent: FC<Props> = ({ active, courseContentData, handleSubmit: han
             courseContentData[courseContentData.length - 1].links[0].title === "" ||
             courseContentData[courseContentData.length - 1].links[0].url === ""
         ) {
-
-            console.log("section can't be empty!")
+            toast({
+                title: "please fill the fields for go to next",
+                description: "Friday, February 10, 2023 at 5:57 PM",
+            })
         } else {
             setActive(active + 1)
             handleCourseSubmit()
         }
-
     }
 
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {

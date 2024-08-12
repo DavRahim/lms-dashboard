@@ -35,22 +35,18 @@ const CoursePreview: FC<Props> = ({ active, courseData, handleCourseCreate, setA
                 </div>
                 <div className="flex items-center">
                     <h1 className="pt-5 text-[25px]">
-                        {/* {courseData?.price === 0 ? "free" : courseData?.price + "$"} */}
-                        Free
+                        {courseData?.price === 0 ? "free" : courseData?.price + "$"}
                     </h1>
                     <h5 className="pl-3 text-[20px] mt-3 line-through opacity-85">
-                        {/* {courseData?.estimatePrice} */}
-                        88
+                        {courseData?.estimatePrice}
                     </h5>
                     <h4 className="pl-5 pt-4 text-[22px]">
-                        {/* {discountPercentagePrice}% Off */}
-                        77%
+                        {discountPercentagePrice}% Off
                     </h4>
                 </div>
                 <div className="flex items-center">
                     <Button>
-                        Buy Now 55
-                        {/* Buy Now {courseData?.price} */}
+                        Buy Now {courseData?.price}
                     </Button>
                 </div>
                 <div className="w-[60%] mt-4 flex items-center  gap-4">
@@ -71,8 +67,7 @@ const CoursePreview: FC<Props> = ({ active, courseData, handleCourseCreate, setA
             <div className="w-full">
                 <div className="w-full md:pr-5">
                     <h1 className="text-[25px] font-Poppins font-[600]">
-                        {/* {courseData?.name} */}
-                        4 Tips To Succeed As A Self Taught Developer
+                        {courseData?.name}
                     </h1>
                     <div className="flex items-center justify-between pt-3">
                         <div className="flex items-center">
@@ -88,12 +83,12 @@ const CoursePreview: FC<Props> = ({ active, courseData, handleCourseCreate, setA
                     </h1>
                 </div>
                 {
-                    [1, 2, 34, 5, 6]?.map((item: any, index: number) => (
+                    courseData?.benefits?.map((item: any, index: number) => (
                         <div className="w-full flex md:items-center py-2" key={index}>
                             <div className="w-[15px] mr-1">
                                 <IoCheckmarkDoneOutline size={20} />
                             </div>
-                            <p className="pl-2">{"4 Tips To Succeed As A Self Taught Developer"}</p>
+                            <p className="pl-2">{item?.title}</p>
                         </div>
                     ))
                 }
@@ -104,12 +99,12 @@ const CoursePreview: FC<Props> = ({ active, courseData, handleCourseCreate, setA
                     What are the prerequisite for stating this course?
                 </h1>
                 {
-                    [1, 2, 34, 5, 6]?.map((item: any, index: number) => (
+                    courseData?.prerequisites?.map((item: any, index: number) => (
                         <div className="w-full flex md:items-center py-2" key={index}>
                             <div className="w-[15px] mr-1">
                                 <IoCheckmarkDoneOutline size={20} />
                             </div>
-                            <p className="pl-2">{"4 Tips To Succeed As A Self Taught Developer"}</p>
+                            <p className="pl-2">{item?.title}</p>
                         </div>
                     ))
                 }
@@ -119,8 +114,7 @@ const CoursePreview: FC<Props> = ({ active, courseData, handleCourseCreate, setA
                 <div className="w-full">
                     <h1 className="text-[25px] font-Poppins font-[600]"> Course Details</h1>
                     <p className="text-[18px] mt-[20px] whitespace-pre-line w-full overflow-hidden">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, numquam hic magnam facilis distinctio nulla omnis delectus nihil debitis?
-                        {/* {courseData?.description} */}
+                        {courseData?.description}
                     </p>
                 </div>
                 <br />
