@@ -19,28 +19,14 @@ type Props = {
 };
 
 const FormSchema = z.object({
-    name: z.string().min(3, {
-        message: "Password must be at least 6 characters."
-    }),
-    description: z.string().min(3, {
-        message: "description must be at least 6 characters."
-    }),
+    name: z.any(),
+    description: z.any(),
     price: z.coerce.number(),
     estimatePrice: z.coerce.number(),
-    tags: z.string().min(3, {
-        message: "tags must be at least 6 characters."
-    }),
-    categories: z
-        .string({
-            required_error: "Please select an categories to display.",
-        }),
-    level: z
-        .string({
-            required_error: "Please select an level to display.",
-        }),
-    demoUrl: z.string().min(3, {
-        message: "demoUrl must be at least 6 characters."
-    }),
+    tags: z.any(),
+    categories: z.any(),
+    level: z.any(),
+    demoUrl: z.any(),
     thumbnail: z
         .any(),
 })
@@ -61,7 +47,7 @@ const CourseInformation: FC<Props> = ({ active, courseInfo, setActive, setCourse
         },
     });
     const [dragging, setDragging] = useState(false);
-    const [imageShow, setImageShow] = useState<any>("");
+    // const [imageShow, setImageShow] = useState<any>("");
     const [baseImage, setBaseImage] = useState<any>("");
     useEffect(() => {
         const fileReader = new FileReader();
@@ -71,10 +57,10 @@ const CourseInformation: FC<Props> = ({ active, courseInfo, setActive, setCourse
                 setBaseImage(thumbnail)
             }
         }
-        if (imageShow) {
-            fileReader.readAsDataURL(imageShow.target.files[0]);
+        if (courseInfo.thumbnail) {
+            fileReader.readAsDataURL(courseInfo.thumbnail);
         }
-    }, [imageShow, baseImage])
+    }, [baseImage, courseInfo]);
     const handleDragOver = (e: any) => {
         e.preventDefault();
         setDragging(true)
@@ -96,23 +82,18 @@ const CourseInformation: FC<Props> = ({ active, courseInfo, setActive, setCourse
                     setBaseImage(thumbnail)
                 }
             }
-            reader.readAsDataURL(file)
+            reader.readAsDataURL(file);
+            setCourseInfo({ ...courseInfo, thumbnail: file })
         }
     };
 
+    const handleStringToInt = (value: string) => {
+        setCourseInfo({ ...courseInfo, categories: value })
+    }
+    const handleStringToInt1 = (value: string) => {
+        setCourseInfo({ ...courseInfo, level: value })
+    }
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-        setCourseInfo({
-            ...courseInfo,
-            name: data.name,
-            description: data.description,
-            price: data.price,
-            estimatePrice: data.estimatePrice,
-            tags: data.tags,
-            categories: data.categories,
-            level: data.level,
-            demoUrl: data.demoUrl,
-            thumbnail: data.thumbnail
-        })
         setActive(active + 1)
     }
     return (
@@ -132,7 +113,7 @@ const CourseInformation: FC<Props> = ({ active, courseInfo, setActive, setCourse
                                         {...field}
                                         value={courseInfo?.name}
                                         onChange={(event) => {
-                                            setCourseInfo({...courseInfo, name: event.target.value })
+                                            setCourseInfo({ ...courseInfo, name: event.target.value })
                                         }}
                                     />
                                 </FormControl>
@@ -220,9 +201,7 @@ const CourseInformation: FC<Props> = ({ active, courseInfo, setActive, setCourse
                                     <FormDescription>
                                         This name will be used in all communications. So provide correct name. Please do not use any pseudonyms.
                                     </FormDescription>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value} value={courseInfo.categories} onOpenChange={(event) => {
-                                        setCourseInfo({ ...courseInfo, categories: event.valueOf })
-                                        }}>
+                                    <Select onValueChange={handleStringToInt} defaultValue={courseInfo.categories}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select Categories" />
@@ -266,9 +245,7 @@ const CourseInformation: FC<Props> = ({ active, courseInfo, setActive, setCourse
                                     <FormDescription>
                                         This name will be used in all communications. So provide correct name. Please do not use any pseudonyms.
                                     </FormDescription>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value} value={courseInfo.level} onOpenChange={(event) => {
-                                        setCourseInfo({ ...courseInfo, level: event.valueOf })
-                                    }}>
+                                    <Select onValueChange={handleStringToInt1} defaultValue={courseInfo.level}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select Level" />
@@ -296,7 +273,7 @@ const CourseInformation: FC<Props> = ({ active, courseInfo, setActive, setCourse
                                 <Input className="hidden" accept="image/*" type="file" id="file" name="thumbnail" onChange={(event) => {
                                     if (!event.target.files) return
                                     field.onChange(event.target.files[0])
-                                    setImageShow(event)
+                                    setCourseInfo({ ...courseInfo, thumbnail: event.target.files[0] });
                                 }} />
                                 <Label
                                     htmlFor="file"
