@@ -105,7 +105,7 @@ const data: Payment[] = [
     id: "124894389894",
     title: "A control that allows the user to toggle between checked and not checked",
     rating: "4.3",
-    purchased: "10",
+    purchased: "11",
 
   },
   {
