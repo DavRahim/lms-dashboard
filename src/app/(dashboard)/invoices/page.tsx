@@ -282,6 +282,7 @@ const Page = (props: Props) => {
     },
   })
 
+  console.log(data);
   return (
     <section className="col-span-10">
       <div className="w-full">
