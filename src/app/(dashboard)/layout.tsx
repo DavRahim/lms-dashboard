@@ -22,37 +22,43 @@ const DashboardLayout = ({
             <div className="flex flex-col gap-4">
               <Link
                 href='/dashboard'
-                className="flex items-center py-1 px-[4px] rounded-md hover:bg-[#F4F4F5] dark:hover:text-[#000]">
-                <LayoutDashboard className='h-4 w-4 stroke-[3px] text-green-600 mr-5'/>
+                className={`${pathname === "/dashboard" ? "bg-[#F4F4F5]" : ""} flex items-center py-1 px-[4px] rounded-md hover:bg-[#F4F4F5] dark:hover:text-[#000]`}>
+                <LayoutDashboard className='h-4 w-4 stroke-[3px] text-green-600 mr-5' />
                 Dashboard
               </Link>
               <Link
                 href='/courses-analytics'
-                className="flex items-center py-1 px-[4px] rounded-md hover:bg-[#F4F4F5] dark:hover:text-[#000]">
+                className={`${pathname === "/courses-analytics" ? "bg-[#F4F4F5]" : ""} flex items-center py-1 px-[4px] rounded-md hover:bg-[#F4F4F5] dark:hover:text-[#000]`}>
                 <Layers className='h-4 w-4 stroke-[3px] text-green-600 mr-5' />
                 Courses Analytics
               </Link>
               <Link
                 href='/users'
-                className="flex items-center py-1 px-[4px] rounded-md hover:bg-[#F4F4F5] dark:hover:text-[#000]">
+                className={`${pathname === "/users" ? "bg-[#F4F4F5]" : ""} flex items-center py-1 px-[4px] rounded-md hover:bg-[#F4F4F5] dark:hover:text-[#000]`}>
                 <Users className='h-4 w-4 stroke-[3px] text-green-600 mr-5' />
                 Users
               </Link>
               <Link
                 href='/invoices'
-                className="flex items-center py-1 px-[4px] rounded-md hover:bg-[#F4F4F5] dark:hover:text-[#000]">
+                className={`${pathname === "/invoices" ? "bg-[#F4F4F5]" : ""} flex items-center py-1 px-[4px] rounded-md hover:bg-[#F4F4F5] dark:hover:text-[#000]`}>
                 <Book className='h-4 w-4 stroke-[3px] text-green-600 mr-5' />
                 Invoices
               </Link>
-              <Link href='/create-course' className="flex items-center py-1 px-[4px] rounded-md hover:bg-[#F4F4F5] dark:hover:text-[#000]">
+              <Link
+                href='/create-course'
+                className={`${pathname === "/create-course" ? "bg-[#F4F4F5]" : ""} flex items-center py-1 px-[4px] rounded-md hover:bg-[#F4F4F5] dark:hover:text-[#000]`}>
                 <CircleFadingPlus className='h-4 w-4 stroke-[3px] text-green-600 mr-5' />
                 Create Course
               </Link>
-              <Link href='/courses' className="flex items-center py-1 px-[4px] rounded-md hover:bg-[#F4F4F5] dark:hover:text-[#000]">
+              <Link
+                href='/courses'
+                className={`${pathname === "/courses" ? "bg-[#F4F4F5]" : ""} flex items-center py-1 px-[4px] rounded-md hover:bg-[#F4F4F5] dark:hover:text-[#000]`}>
                 <CircleFadingPlus className='h-4 w-4 stroke-[3px] text-green-600 mr-5' />
                 Live Course
               </Link>
-              <Link href='/categories' className="flex items-center py-1 px-[4px] rounded-md hover:bg-[#F4F4F5] dark:hover:text-[#000]">
+              <Link 
+              href='/categories' 
+                className={`${pathname === "/categories" ? "bg-[#F4F4F5]" : ""} flex items-center py-1 px-[4px] rounded-md hover:bg-[#F4F4F5] dark:hover:text-[#000]`}>
                 <Library className='h-4 w-4 stroke-[3px] text-green-600 mr-5' />
                 Categories
               </Link>
