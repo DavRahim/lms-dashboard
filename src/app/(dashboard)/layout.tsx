@@ -1,7 +1,9 @@
+"use client"
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { Separator } from "@/components/ui/separator";
 import { Book, CircleFadingPlus, Layers, LayoutDashboard, Library, Users } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 
@@ -10,6 +12,8 @@ const DashboardLayout = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
+  const pathname = usePathname();
+  console.log(pathname)
   return (
     <section className={`min-h-screen`}>
       <MaxWidthWrapper>
