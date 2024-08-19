@@ -9,7 +9,6 @@ import CoursePreview from "@/components/course-create/CoursePreview";
 type Props = {};
 const Page = (props: Props) => {
     const [active, setActive] = useState(0);
-
     // course info data
     const [courseInfo, setCourseInfo] = useState({
         name: "",
@@ -26,8 +25,6 @@ const Page = (props: Props) => {
     // benefits & prerequisites data
     const [benefits, setBenefits] = useState([{ title: "" }])
     const [prerequisites, setPrerequisites] = useState([{ title: "" }]);
-
-
     const [courseContentData, setCourseContentData] = useState([
         {
             videoUrl: "",
@@ -52,7 +49,6 @@ const Page = (props: Props) => {
         const formattedBenefits = benefits.map((benefit) => ({ title: benefit.title }))
         // format prerequisite array
         const formattedPrerequisites = prerequisites.map((prerequisite) => ({ title: prerequisite.title }))
-
         // format course content array;
         const formattedCourseContentData = courseContentData.map((courseContent) => ({
             videoUrl: courseContent.videoUrl,
@@ -66,7 +62,6 @@ const Page = (props: Props) => {
             })),
             suggestion: courseContent.suggestion
         }))
-
         // prepare our data object;
         const data = {
             name: courseInfo.name,
@@ -83,16 +78,14 @@ const Page = (props: Props) => {
             prerequisites: formattedPrerequisites,
             courseData: formattedCourseContentData
         }
-
         setCourseData(data)
-
     }
 
     const handleCourseCreate = async (e: any) => {
         const data = courseData;
-        console.log(data);
+        // console.log(data);
+        //TODO: course crate then toastify
         // if (!isLoading) {
-
         //     await createCourse(data)
         // }
     }
