@@ -1,14 +1,19 @@
 "use client"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Steps from "@/components/Steps";
 import CourseInformation from "@/components/course-create/CourseInformation";
 import CourseData from "@/components/course-create/CourseData";
 import CourseContent from "@/components/course-create/CourseContent";
 import CoursePreview from "@/components/course-create/CoursePreview";
+import { useCreateCourseMutation } from "@/redux/features/courses/coursesApi";
+import { redirect } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 
 type Props = {};
 const Page = (props: Props) => {
+    const [createCourse, { isLoading, isSuccess, error }] = useCreateCourseMutation();
     const [active, setActive] = useState(0);
+    const { toast } = useToast()
     // course info data
     const [courseInfo, setCourseInfo] = useState({
         name: "",
@@ -43,6 +48,7 @@ const Page = (props: Props) => {
     ])
 
     const [courseData, setCourseData] = useState({})
+    const [formCourseData, setFormCourseData] = useState({})
 
     const handleSubmit = async () => {
         // format benefits array
@@ -78,16 +84,52 @@ const Page = (props: Props) => {
             prerequisites: formattedPrerequisites,
             courseData: formattedCourseContentData
         }
-        setCourseData(data)
+        setCourseData(data);
+        // form
+        const formData = new FormData()
+        // formData.append("name", courseInfo.name)
+        // formData.append("description", courseInfo.description)
+        // formData.append("price", courseInfo.price)
+        // formData.append("categories", courseInfo.categories)
+        // formData.append("estimatePrice", courseInfo.estimatePrice)
+        // formData.append("tags", courseInfo.tags)
+        // formData.append("level", courseInfo.level)
+        // formData.append("demoUrl", courseInfo.demoUrl)
+        formData.append("thumbnail", courseInfo.thumbnail)
+        // formData.append("length", courseContentData.length.toString())
+        // formData.append("benefits", formattedBenefits.toString())
+        // formData.append("prerequisites", formattedPrerequisites.toString())
+        // formData.append("courseData", formattedCourseContentData.toString())
+
+        setFormCourseData({ formData, ...data })
+        // form
     }
 
     const handleCourseCreate = async (e: any) => {
-        const data = courseData;
+        const data = formCourseData;
         //TODO: course crate then toasty
-        // if (!isLoading) {
-        //     await createCourse(data)
-        // }
+        if (!isLoading) {
+            await createCourse(data)
+        }
     }
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast({
+                description: "Course create successfully.",
+            })
+            redirect("/courses")
+        }
+        if (error) {
+            if ("data" in error) {
+                const errorMessage = error as any;
+                toast({
+                    description: "Course create Unsuccessfully.",
+                })
+
+            }
+        }
+    }, [isSuccess, error, toast])
 
     return (
         <div className="col-span-10">
