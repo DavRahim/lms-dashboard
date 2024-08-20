@@ -83,8 +83,7 @@ const Page = (props: Props) => {
 
     const handleCourseCreate = async (e: any) => {
         const data = courseData;
-        console.log(data);
-        //TODO: course crate then toastify
+        //TODO: course crate then toasty
         // if (!isLoading) {
         //     await createCourse(data)
         // }
