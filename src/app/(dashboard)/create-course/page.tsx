@@ -87,20 +87,7 @@ const Page = (props: Props) => {
         setCourseData(data);
         // form
         const formData = new FormData()
-        // formData.append("name", courseInfo.name)
-        // formData.append("description", courseInfo.description)
-        // formData.append("price", courseInfo.price)
-        // formData.append("categories", courseInfo.categories)
-        // formData.append("estimatePrice", courseInfo.estimatePrice)
-        // formData.append("tags", courseInfo.tags)
-        // formData.append("level", courseInfo.level)
-        // formData.append("demoUrl", courseInfo.demoUrl)
         formData.append("thumbnail", courseInfo.thumbnail)
-        // formData.append("length", courseContentData.length.toString())
-        // formData.append("benefits", formattedBenefits.toString())
-        // formData.append("prerequisites", formattedPrerequisites.toString())
-        // formData.append("courseData", formattedCourseContentData.toString())
-
         setFormCourseData({ formData, ...data })
         // form
     }
