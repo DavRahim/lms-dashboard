@@ -89,12 +89,10 @@ const Page = (props: Props) => {
         const formData = new FormData()
         formData.append("thumbnail", courseInfo.thumbnail)
         setFormCourseData({ formData, ...data })
-        // form
     }
 
     const handleCourseCreate = async (e: any) => {
         const data = formCourseData;
-        //TODO: course crate then toasty
         if (!isLoading) {
             await createCourse(data)
         }
