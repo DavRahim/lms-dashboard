@@ -48,7 +48,7 @@ const Page = (props: Props) => {
     ])
 
     const [courseData, setCourseData] = useState({})
-    const [formCourseData, setFormCourseData] = useState({})
+    // const [formCourseData, setFormCourseData] = useState({})
 
     const handleSubmit = async () => {
         // format benefits array
@@ -86,13 +86,13 @@ const Page = (props: Props) => {
         }
         setCourseData(data);
         // form
-        const formData = new FormData()
-        formData.append("thumbnail", courseInfo.thumbnail)
-        setFormCourseData({ formData, ...data })
+        // const formData = new FormData()
+        // formData.append("thumbnail", courseInfo.thumbnail)
+        // setFormCourseData({ formData, ...data })
     }
 
     const handleCourseCreate = async (e: any) => {
-        const data = formCourseData;
+        const data = courseData;
         if (!isLoading) {
             await createCourse(data)
         }
