@@ -35,7 +35,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { useGetAllCoursesQuery } from "@/redux/features/courses/coursesApi"
+import { useDeleteCourseMutation, useGetAllCoursesQuery } from "@/redux/features/courses/coursesApi"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
+import { useToast } from "@/components/ui/use-toast"
 
 // const data: Payment[] = [
 //   // mock data for testing;
@@ -124,98 +126,7 @@ export type Payment = {
   purchased: string
 }
 
-export const columns: ColumnDef<Payment>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "_id",
-    header: "ID",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("_id")}</div>
-    ),
-  },
-  {
-    accessorKey: "name",
-    header: () => <div className="text-right">Course Name</div>,
-    cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>
-  },
-  {
-    accessorKey: "rating",
-    header: () => <div className="text-right">Rating</div>,
-    cell: ({ row }) => <div className="lowercase">{row.getValue("rating")}</div>
-  },
-  {
-    accessorKey: "purchased",
-    header: () => <div className="text-right">Purchased</div>,
-    cell: ({ row }) => <div className="lowercase">{row.getValue("purchased")}</div>
-  },
-  {
-    accessorKey: "updatedAt",
-    header: () => <div className="text-right">UpdatedAt</div>,
-    cell: ({ row }) => <div className="lowercase">{row.getValue("updatedAt")}</div>
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original
 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              <span>
-                <Trash2 className="h-4 w-4 mr-2" />
-                Delete
-              </span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <a
-                href={`mailto:mdabdurrahim196679@gmail.com`}>
-                {/* href={`mailto:${params.row.email}`}> */}
-                <MailCheck
-                  className="dark:text-white text-black h-4 w-4"
-                />
-                Edit
-              </a>
-            </DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    },
-  },
-]
 
 type Props = {};
 
@@ -225,6 +136,7 @@ const Page = (props: Props) => {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   )
+  const { toast } = useToast()
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({});
@@ -235,7 +147,122 @@ const Page = (props: Props) => {
     setData(courseData?.data)
   }, [courseData])
 
+  const [deleteCourse, { isSuccess, error, }] = useDeleteCourseMutation();
 
+  const handleDelete = async (id: any) => {
+    // await deleteCourse(id)
+  }
+  // coulim
+  const columns: ColumnDef<Payment>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "_id",
+      header: "ID",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("_id")}</div>
+      ),
+    },
+    {
+      accessorKey: "name",
+      header: () => <div className="text-right">Course Name</div>,
+      cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>
+    },
+    {
+      accessorKey: "rating",
+      header: () => <div className="text-right">Rating</div>,
+      cell: ({ row }) => <div className="lowercase">{row.getValue("rating")}</div>
+    },
+    {
+      accessorKey: "purchased",
+      header: () => <div className="text-right">Purchased</div>,
+      cell: ({ row }) => <div className="lowercase">{row.getValue("purchased")}</div>
+    },
+    {
+      accessorKey: "updatedAt",
+      header: () => <div className="text-right">UpdatedAt</div>,
+      cell: ({ row }) => <div className="lowercase">{row.getValue("updatedAt")}</div>
+    },
+    {
+      id: "actions",
+      enableHiding: false,
+      cell: ({ row }) => {
+        const courseId = row.getValue("_id");
+        return (
+          <>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-8 w-8 p-0">
+                  <span className="sr-only">Open menu</span>
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="outline">
+                      <span className="flex gap-3">
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        Delete
+                      </span>
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Are you sure Delete Course?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently delete your
+                        Course and remove your data from our servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={() => handleDelete(courseId)}>Continue</AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <a
+                    href={`mailto:mdabdurrahim196679@gmail.com`}>
+                    {/* href={`mailto:${params.row.email}`}> */}
+                    <MailCheck
+                      className="dark:text-white text-black h-4 w-4"
+                    />
+                    Edit
+                  </a>
+                </DropdownMenuItem>
+                <DropdownMenuItem>View payment details</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </>
+        )
+      },
+    },
+  ]
+  // coulim
+  // Table
   const table = useReactTable({
     data,
     columns,
@@ -254,7 +281,25 @@ const Page = (props: Props) => {
       rowSelection,
     },
   })
+  // Table
+  React.useEffect(() => {
+    if (isSuccess) {
+      refetch()
+      toast({
+        description: "course deleted successfully.",
+      })
+    }
+    if (error) {
+      if ("data" in error) {
+        toast({
+          variant: "destructive",
+          title: "Course Deleted Unsuccessfully",
+          description: "There was a problem with your request.",
+        })
+      }
+    }
 
+  }, [isSuccess, error, refetch, toast])
   return (
     <section className="col-span-10">
       <div className="w-full">
