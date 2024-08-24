@@ -35,90 +35,91 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { useGetAllCoursesQuery } from "@/redux/features/courses/coursesApi"
 
-const data: Payment[] = [
-  // mock data for testing;
-  {
-    id: "124894389894",
-    title: "A control that allows the user to toggle between checked and not checked",
-    rating: "4.3",
-    purchased: "10",
+// const data: Payment[] = [
+//   // mock data for testing;
+//   {
+//     id: "124894389894",
+//     title: "A control that allows the user to toggle between checked and not checked",
+//     rating: "4.3",
+//     purchased: "10",
 
-  },
-  {
-    id: "124894389894",
-    title: "A control that allows the user to toggle between checked and not checked",
-    rating: "4.3",
-    purchased: "10",
+//   },
+//   {
+//     id: "124894389894",
+//     title: "A control that allows the user to toggle between checked and not checked",
+//     rating: "4.3",
+//     purchased: "10",
 
-  },
-  {
-    id: "124894389894",
-    title: "A control that allows the user to toggle between checked and not checked",
-    rating: "4.3",
-    purchased: "10",
+//   },
+//   {
+//     id: "124894389894",
+//     title: "A control that allows the user to toggle between checked and not checked",
+//     rating: "4.3",
+//     purchased: "10",
 
-  },
-  {
-    id: "124894389894",
-    title: "A control that allows the user to toggle between checked and not checked",
-    rating: "4.3",
-    purchased: "10",
+//   },
+//   {
+//     id: "124894389894",
+//     title: "A control that allows the user to toggle between checked and not checked",
+//     rating: "4.3",
+//     purchased: "10",
 
-  },
-  {
-    id: "124894389894",
-    title: "A control that allows the user to toggle between checked and not checked",
-    rating: "4.3",
-    purchased: "10",
+//   },
+//   {
+//     id: "124894389894",
+//     title: "A control that allows the user to toggle between checked and not checked",
+//     rating: "4.3",
+//     purchased: "10",
 
-  },
-  {
-    id: "124894389894",
-    title: "A control that allows the user to toggle between checked and not checked",
-    rating: "4.3",
-    purchased: "10",
+//   },
+//   {
+//     id: "124894389894",
+//     title: "A control that allows the user to toggle between checked and not checked",
+//     rating: "4.3",
+//     purchased: "10",
 
-  },
-  {
-    id: "124894389894",
-    title: "A control that allows the user to toggle between checked and not checked",
-    rating: "4.3",
-    purchased: "10",
+//   },
+//   {
+//     id: "124894389894",
+//     title: "A control that allows the user to toggle between checked and not checked",
+//     rating: "4.3",
+//     purchased: "10",
 
-  },
-  {
-    id: "124894389894",
-    title: "A control that allows the user to toggle between checked and not checked",
-    rating: "4.3",
-    purchased: "10",
+//   },
+//   {
+//     id: "124894389894",
+//     title: "A control that allows the user to toggle between checked and not checked",
+//     rating: "4.3",
+//     purchased: "10",
 
-  },
-  {
-    id: "124894389894",
-    title: "Lucide is available as a package for all major package managers",
-    rating: "4.3",
-    purchased: "10",
+//   },
+//   {
+//     id: "124894389894",
+//     title: "Lucide is available as a package for all major package managers",
+//     rating: "4.3",
+//     purchased: "10",
 
-  },
-  {
-    id: "124894389894",
-    title: "A control that allows the user to toggle between checked and not checked",
-    rating: "4.3",
-    purchased: "11",
+//   },
+//   {
+//     id: "124894389894",
+//     title: "A control that allows the user to toggle between checked and not checked",
+//     rating: "4.3",
+//     purchased: "11",
 
-  },
-  {
-    id: "124894389894",
-    title: "A control that allows the user to toggle between checked and not checked",
-    rating: "4.3",
-    purchased: "10",
-  },
-]
+//   },
+//   {
+//     id: "124894389894",
+//     title: "A control that allows the user to toggle between checked and not checked",
+//     rating: "4.3",
+//     purchased: "10",
+//   },
+// ]
 
 export type Payment = {
   id: string
-  title: string
+  name: string
   rating: string
   purchased: string
 }
@@ -147,16 +148,16 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "id",
+    accessorKey: "_id",
     header: "ID",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("id")}</div>
+      <div className="capitalize">{row.getValue("_id")}</div>
     ),
   },
   {
-    accessorKey: "title",
-    header: () => <div className="text-right">Course Title</div>,
-    cell: ({ row }) => <div className="lowercase">{row.getValue("title")}</div>
+    accessorKey: "name",
+    header: () => <div className="text-right">Course Name</div>,
+    cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>
   },
   {
     accessorKey: "rating",
@@ -169,9 +170,9 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => <div className="lowercase">{row.getValue("purchased")}</div>
   },
   {
-    accessorKey: "create_at",
-    header: () => <div className="text-right">Create_At</div>,
-    cell: ({ row }) => <div className="lowercase">{row.getValue("create_at")}</div>
+    accessorKey: "updatedAt",
+    header: () => <div className="text-right">UpdatedAt</div>,
+    cell: ({ row }) => <div className="lowercase">{row.getValue("updatedAt")}</div>
   },
   {
     id: "actions",
@@ -226,7 +227,14 @@ const Page = (props: Props) => {
   )
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [data, setData] = React.useState<Payment[]>([]);
+  // get admin course
+  const { isLoading, data: courseData, refetch } = useGetAllCoursesQuery({}, { refetchOnMountOrArgChange: true });
+  React.useEffect(() => {
+    setData(courseData?.data)
+  }, [courseData])
+
 
   const table = useReactTable({
     data,
@@ -252,10 +260,10 @@ const Page = (props: Props) => {
       <div className="w-full">
         <div className="flex items-center py-4">
           <Input
-            placeholder="Filter course title..."
-            value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+            placeholder="Filter course name..."
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-              table.getColumn("title")?.setFilterValue(event.target.value)
+              table.getColumn("name")?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />
@@ -326,7 +334,7 @@ const Page = (props: Props) => {
               ) : (
                 <TableRow>
                   <TableCell
-                    colSpan={columns.length}
+                    colSpan={columns?.length}
                     className="h-24 text-center"
                   >
                     No results.
@@ -338,8 +346,8 @@ const Page = (props: Props) => {
         </div>
         <div className="flex items-center justify-end space-x-2 py-4">
           <div className="flex-1 text-sm text-muted-foreground">
-            {table.getFilteredSelectedRowModel().rows.length} of{" "}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
+            {table.getFilteredSelectedRowModel().rows?.length} of{" "}
+            {table.getFilteredRowModel().rows?.length} row(s) selected.
           </div>
           <div className="space-x-2">
             <Button
