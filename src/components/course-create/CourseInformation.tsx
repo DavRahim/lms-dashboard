@@ -49,18 +49,33 @@ const CourseInformation: FC<Props> = ({ active, courseInfo, setActive, setCourse
     const [dragging, setDragging] = useState(false);
     // const [imageShow, setImageShow] = useState<any>("");
     const [baseImage, setBaseImage] = useState<any>("");
-    useEffect(() => {
-        const fileReader = new FileReader();
-        fileReader.onload = () => {
-            const thumbnail = fileReader.result
-            if (fileReader.readyState === 2) {
-                setBaseImage(thumbnail)
+    const handleFileChange = (e: any) => {
+        const file = e.target.files?.[0]
+        if (file) {
+            const fileReader = new FileReader();
+            fileReader.onload = () => {
+                const thumbnail = fileReader.result
+                if (fileReader.readyState === 2) {
+                    setBaseImage(thumbnail)
+                }
             }
+            fileReader.readAsDataURL(file);
         }
-        if (courseInfo.thumbnail) {
-            fileReader.readAsDataURL(courseInfo.thumbnail);
-        }
-    }, [baseImage, courseInfo]);
+
+
+    }
+    // useEffect(() => {
+    //     const fileReader = new FileReader();
+    //     fileReader.onload = () => {
+    //         const thumbnail = fileReader.result
+    //         if (fileReader.readyState === 2) {
+    //             setBaseImage(thumbnail)
+    //         }
+    //     }
+    //     if (courseInfo?.thumbnail) {
+    //         fileReader.readAsDataURL(courseInfo?.thumbnail);
+    //     }
+    // }, [baseImage, courseInfo]);
     const handleDragOver = (e: any) => {
         e.preventDefault();
         setDragging(true)
@@ -274,6 +289,7 @@ const CourseInformation: FC<Props> = ({ active, courseInfo, setActive, setCourse
                                     if (!event.target.files) return
                                     field.onChange(event.target.files[0])
                                     setCourseInfo({ ...courseInfo, thumbnail: event.target.files[0] });
+                                    handleFileChange(event)
                                 }} />
                                 <Label
                                     htmlFor="file"
@@ -286,7 +302,7 @@ const CourseInformation: FC<Props> = ({ active, courseInfo, setActive, setCourse
                                         baseImage ? (
                                             <Image
                                                 alt="thumbnail"
-                                                src={baseImage}
+                                                src={baseImage ? baseImage : ""}
                                                 className="max-h-full w-full object-cover"
                                                 width={500}
                                                 height={500}

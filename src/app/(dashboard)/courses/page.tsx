@@ -38,6 +38,7 @@ import {
 import { useDeleteCourseMutation, useGetAllCoursesQuery } from "@/redux/features/courses/coursesApi"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { useToast } from "@/components/ui/use-toast"
+import Link from "next/link"
 
 // const data: Payment[] = [
 //   // mock data for testing;
@@ -152,7 +153,7 @@ const Page = (props: Props) => {
   const handleDelete = async (id: any) => {
     // await deleteCourse(id)
   }
-  // coulim
+  // columns
   const columns: ColumnDef<Payment>[] = [
     {
       id: "select",
@@ -244,14 +245,14 @@ const Page = (props: Props) => {
                 </AlertDialog>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <a
-                    href={`mailto:mdabdurrahim196679@gmail.com`}>
+                  <Link
+                    href={`/edit-course/${courseId}`}>
                     {/* href={`mailto:${params.row.email}`}> */}
                     <MailCheck
                       className="dark:text-white text-black h-4 w-4"
                     />
                     Edit
-                  </a>
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>View payment details</DropdownMenuItem>
               </DropdownMenuContent>
@@ -261,7 +262,8 @@ const Page = (props: Props) => {
       },
     },
   ]
-  // coulim
+  // columns
+
   // Table
   const table = useReactTable({
     data,
