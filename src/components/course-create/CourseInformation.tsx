@@ -62,7 +62,6 @@ const CourseInformation: FC<Props> = ({ active, courseInfo, setActive, setCourse
             fileReader.readAsDataURL(file);
         }
 
-
     }
     // useEffect(() => {
     //     const fileReader = new FileReader();
